@@ -91,8 +91,8 @@ const Step06 = () => {
                         end: '100% center',
                         scrub: true,
                         containerAnimation: scrollTween,
-                        onEnter: self => { counterRef.current.innerText = num; console.log(self); },
-                        onEnterBack: () => { counterRef.current.innerText = num; },
+                        onEnter: self => { counterRef.current.innerText = num; console.log(self); }, // `onEnter`: 스크롤이 트리거 지점을 지나 앞으로 이동할 때 실행됩니다.
+                        onEnterBack: () => { counterRef.current.innerText = num; }, // `onEnterBack`: 스크롤이 트리거 지점을 지나 뒤로 이동할 때 실행됩니다.
                     });
                 });
                 // gsap.utils.toArray('.work ul li .textBox').forEach(textBox => {

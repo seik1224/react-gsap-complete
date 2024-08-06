@@ -44,33 +44,41 @@ const Step07 = () => {
 
     useEffect(() => {
         linksRef.current.forEach((elem) => {
-            let image = elem.querySelector('img.fadeImg'),
-            align = e => {
+            let image = elem.querySelector('img.fadeImg');
+
+            // 마우스 위치에 따라 이미지 위치를 업데이트하는 함수
+            let align = e => {
                 setXRef.current(e.clientX);
                 setYRef.current(e.clientY);
-            },
+            };
 
-            startPoint = () => document.addEventListener('mousemove', align),
+            // 마우스 움직임 추적을 시작하는 함수
+            let startPoint = () => document.addEventListener('mousemove', align);
 
-            fade = gsap.to(image, {autoAlpha:0.9,ease:'none',paused:true})
+            // GSAP를 사용해 이미지 페이드 인/아웃 애니메이션을 준비
+            let fade = gsap.to(image, {autoAlpha:0.9,ease:'none',paused:true});
 
+            // 마우스가 링크에 진입할 때 실행될 함수를 정의
             elem.onmouseenter = (e) => {
-                fade.play();
-                startPoint();
+                fade.play(); // 이미지 페이드 인 애니메이션을 시작
+                startPoint(); // 마우스 움직임 추적을 시작
 
+                // 이전에 활성화된 이미지가 있다면 실행
                 if(activeImageRef.current) {
                     gsap.set(image, {
-                        x:gsap.getProperty(activeImageRef.current, 'x'),
-                        y:gsap.getProperty(activeImageRef.current, 'y')
+                        x:gsap.getProperty(activeImageRef.current, 'x'), // 활성 이미지의 x 좌표를 현재 이미지의 x 좌표로 설정
+                        y:gsap.getProperty(activeImageRef.current, 'y') // 활성 이미지의 y 좌표를 현재 이미지의 y 좌표로 설정
                     })
                 }
-                activeImageRef.current = image;
-                setXRef.current = gsap.quickTo(image, 'x', {duration:0.5});
-                setYRef.current = gsap.quickTo(image, 'y', {duration:0.5});
 
-                align(e);
+                // 현재 이미지를 활성 이미지로 설정
+                activeImageRef.current = image;
+                setXRef.current = gsap.quickTo(image, 'x', {duration:0.5}); // 이미지의 x 좌표를 빠르게 업데이트
+                setYRef.current = gsap.quickTo(image, 'y', {duration:0.5}); // 이미지의 y 좌표를 빠르게 업데이트
+
+                align(e); // 마우스 위치를 업데이트
             }
-            elem.onmouseleave = () => fade.reverse()
+            elem.onmouseleave = () => fade.reverse() // 마우스가 링크를 떠날 때 이미지 페이드 아웃 애니메이션을 역방향으로 재생
         });
     }, []);
 
